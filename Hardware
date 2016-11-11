@@ -1,7 +1,5 @@
-DcMotor FRM;
-DcMotor FLM;
-DcMotor BRM;
-DcMotor BLM;
+DcMotor RM;
+DcMotor LM;
 DcMotor SM1;
 DcMotor SM2;
 Servo ISER;
