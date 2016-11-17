@@ -1,0 +1,78 @@
+package org.firstinspires.ftc.robotcontroller.internal.testcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.LED;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+@Autonomous (name = "Tests", group = "Tests")
+public class newRobotThree extends LinearOpMode {
+
+    DcMotor FRM;
+    DcMotor FLM;
+    DcMotor BRM;
+    DcMotor BLM;
+
+    ColorSensor CSensor;
+    LED led;
+
+    private ElapsedTime runtime = new ElapsedTime();
+
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+        FRM = hardwareMap.dcMotor.get("FRM");
+        FLM = hardwareMap.dcMotor.get("FLM");
+        BRM = hardwareMap.dcMotor.get("BRM");
+        BLM = hardwareMap.dcMotor.get("BLM");
+
+        FLM.setDirection(DcMotorSimple.Direction.REVERSE);
+        BLM.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        telemetry.addData("Status", "Ready to See");
+        telemetry.update();
+
+        float hsvValues[] = {0F, 0F, 0F};
+
+        led = hardwareMap.led.get("led");
+        CSensor = hardwareMap.colorSensor.get("CSensor");
+
+        waitForStart();
+
+        if (CSensor.red() > CSensor.blue() && CSensor.red() > CSensor.green()) {
+            if (runtime.seconds() < 2.0) {
+                FRM.setPower(0.5);
+                FLM.setPower(0.5);
+                BRM.setPower(0.5);
+                BLM.setPower(0.5);
+            } else if (runtime.seconds() < 4.0) {
+                FRM.setPower(0.5);
+                FLM.setPower(0.5);
+                BRM.setPower(0.5);
+                BLM.setPower(0.5);
+            } else {
+                runtime.reset();
+            }
+        } else if (CSensor.blue() > CSensor.red() && CSensor.blue() > CSensor.green()) {
+            FRM.setPower(0.0);
+            FLM.setPower(0.0);
+            BRM.setPower(0.0);
+            BLM.setPower(0.0);
+
+            runtime.reset();
+        }
+
+        telemetry.addData("Clear", CSensor.alpha());
+        telemetry.addData("Red ", CSensor.red());
+        telemetry.addData("Green", CSensor.green());
+        telemetry.addData("Blue ", CSensor.blue());
+        telemetry.addData("Hue", hsvValues[0]);
+
+        telemetry.update();
+        idle();
+    }
+}
