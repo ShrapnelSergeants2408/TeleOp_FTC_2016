@@ -1,0 +1,125 @@
+package org.firstinspires.ftc.robotcontroller.internal;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
+/**
+ * Created by jkupk on 11/1/2016.
+ */
+@TeleOp(name="test: TeleOp",   group="Comp")
+public class CompTeleOp extends OpMode {
+
+    DcMotor LM;
+    DcMotor RM;
+    DcMotor SM1;
+    DcMotor SM2;
+    Servo ISER;
+
+
+
+
+public static int turboOn = 1;
+public static int turboOff = 1/2;
+
+
+
+
+@Override
+public void init() {
+
+
+    LM = hardwareMap.dcMotor.get("LM");
+    RM = hardwareMap.dcMotor.get("RM");
+    SM1 = hardwareMap.dcMotor.get("SM1");
+    SM2 = hardwareMap.dcMotor.get("SM2");
+    ISER = hardwareMap.servo.get("ISER");
+
+    LM.setMaxSpeed(1/2);
+    RM.setMaxSpeed(1/2);
+
+
+    SM1.setMaxSpeed(7/10);
+    SM2.setMaxSpeed(75/100);
+
+
+    LM.setDirection(DcMotorSimple.Direction.REVERSE);
+    SM1.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+}
+
+@Override
+public void loop(){
+
+
+    float RightStick = -gamepad1.right_stick_y;
+    float LeftStick = -gamepad1.left_stick_y;
+
+
+    LM.setPower(LeftStick);
+    RM.setPower(RightStick);
+
+
+
+    if (gamepad1.x) {
+        LM.setMaxSpeed(turboOn);
+        RM.setMaxSpeed(turboOn);
+
+    }
+
+    if (gamepad1.b) {
+        LM.setMaxSpeed(turboOff);
+        RM.setMaxSpeed(turboOff);
+    }
+
+//Fire Code
+    if (gamepad2.b) {
+
+        SM1.setPower();
+        SM2.setPower(1);
+
+    } else {
+
+        SM1.setPower(0);
+        SM2.setPower(0);
+
+    }
+
+
+    if (gamepad2.a) {
+
+        ISER.setPosition(.3);
+
+
+    } else {
+
+
+        ISER.setPosition(.75);
+
+
+
+    }
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+}
